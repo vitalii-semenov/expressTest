@@ -1,0 +1,17 @@
+<h1>About page</h1>
+
+{{#if persons.length}}
+        {{#each persons}}
+        <div class="row">
+            <a href="/about/{{id}}" class="collection-item col s3">{{name}}: <span class="price">{{price}}</span></a>
+            <a href="/about/{{id}}/edit?allow=true">Edit</a>
+            <form action="/card/add" method="POST" class="actions">
+                <input type="hidden" name="id" value="{{id}}">
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+            
+        {{/each}}
+{{else}}
+<div>Empty list</div>
+{{/if}}

@@ -1,0 +1,22 @@
+<h1>Edit</h1>
+
+<div class="row">
+    <form action="/about/edit" method="POST" class="col s12">
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="name" name="name" type="text" class="validate" value="{{ person.name }}" required>
+                <label for="name">Name</label>
+                <span class="helper-text" data-error="wrong"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="price" name="price" type="number" class="validate" value="{{ person.price }}" required>
+                <label for="price">Enter price</label>
+                <span class="helper-text" data-error="wrong"></span>
+            </div>
+        </div>
+        <input type="hidden" name="id" value="{{ person.id }}">
+        <button class="btn btn-primary">Edit</button>
+    </form>
+</div>
