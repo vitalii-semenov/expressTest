@@ -1,5 +1,5 @@
 const {Router} = require('express')
-const Person = require('../models/person')
+const Person = require('../models/user')
 
 const router = Router()
 
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
         title: 'Add page',
         isAdd: true
     })
-})
+});
 
 router.post('/', async (req, res) => {
     const person = new Person({
