@@ -11,4 +11,4 @@ const employee = new Schema({
   salary: Number
 });
 
-module.exports = model('User', employee)
+module.exports = model('Employee', employee)

@@ -5,42 +5,61 @@ const router = Router()
 
 router.post('/add', async (req, res) => {
   try {
-    const {token} = req.body;
-
-    const candidate = await User.findOne({email});
-    if (candidate) {
-      const areSame = bcrypt.compare(password, candidate.password);
-      if (areSame) {
-        const token = jwt.sign({_id: candidate._id.toString()}, 'test');
-        await User.findOneAndUpdate({email}, {token: token});
-        res.status(200).send({token})
-      }
-    } else {
-      res.status(400).send({"message": "is not registered"})
-    }
+    console.log(req.body);
+    // const {token} = req.body;
+    const {name, address, birth, position, salary} = req.body;
+    const employee = new Employee({name, address, birth, position, salary});
+    await employee.save();
+    res.status(200).send({"message": 'Successfully added'})
 
   } catch (e) {
     res.status(400).send('Error')
   }
 })
 
-router.post('/register', async (req, res) => {
+router.get('/all', async (req, res) => {
   try {
-    const {login, password, email} = req.body;
-    console.log('req', req.body);
-    const candidate = await User.findOne({email});
-    if (candidate) {
-      res.status(400).send({"message": 'Successfully Registered'})
-    } else {
-      const hashPass = await bcrypt.hash(password, 10);
-      const user = new User({login, password: hashPass, email});
-      await user.save();
-      res.status(200).send({"message": 'Successfully Registered'})
-    }
-  } catch (e) {
-    res.status(200).send('Error')
-  }
+    // const {token} = req.body;
+    Employee.find({}, (err, users) => {
+      let staff = [];
 
+      users.forEach((user, id) => {
+        staff[id] = user;
+      });
+
+      res.status(200).send(staff)
+    })
+
+  } catch (e) {
+    res.status(400).send('Error')
+  }
 })
+
+router.post('/delete', async (req, res) => {
+  try {
+    // const {token} = req.body;
+    const {_id} = req.body
+    await Employee.findOneAndDelete({_id})
+    res.status(200).send({"message": "Successfully deleted"})
+
+  } catch (e) {
+    res.status(400).send('Error')
+  }
+})
+
+router.post('/edit', async (req, res) => {
+  try {
+    // const {token} = req.body;
+    console.log(req.body)
+    const {_id, name, address, birth, position, salary} = req.body;
+    await Employee.findOneAndUpdate({_id}, {name, address, birth, position, salary})
+    res.status(200).send({"message": "Successfully edited"})
+
+  } catch (e) {
+    res.status(400).send('Error')
+  }
+})
+
+
 
 module.exports = router
