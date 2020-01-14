@@ -5,5 +5,10 @@ const employee = new Schema({
     type: String,
     required: true
   },
+  address: String,
+  birth: String,
+  position: String,
+  salary: Number
+});
 
-})
+module.exports = model('User', employee)

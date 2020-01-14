@@ -1,13 +1,15 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const homeRoutes = require('./routes/home');
+const loginRoutes = require('./routes/login');
+const homeRoutes = require('./routes/login');
 
 const PORT = process.env.PORT || 4000;
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cors())
+app.use('/api/v1', loginRoutes);
 app.use('/api/v1', homeRoutes);
 
 async function start() {
