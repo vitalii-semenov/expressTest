@@ -1,25 +1,22 @@
-const {Router} = require('express')
-const jwt = require('jsonwebtoken')
-const Employee = require('../models/employee')
-const router = Router()
+const {Router} = require('express');
+const Employee = require('../models/employee');
+const auth = require('../middleware/auth');
+const router = Router();
 
-router.post('/add', async (req, res) => {
+router.post('/add', auth, async (req, res) => {
   try {
-    console.log(req.body);
-    // const {token} = req.body;
     const {name, address, birth, position, salary} = req.body;
     const employee = new Employee({name, address, birth, position, salary});
     await employee.save();
-    res.status(200).send({"message": 'Successfully added'})
+    res.status(200).send({'message': 'Successfully added'});
 
   } catch (e) {
-    res.status(400).send('Error')
+    res.status(400).send('Error');
   }
-})
+});
 
-router.get('/all', async (req, res) => {
+router.get('/all', auth, async (req, res) => {
   try {
-    // const {token} = req.body;
     Employee.find({}, (err, users) => {
       let staff = [];
 
@@ -27,39 +24,34 @@ router.get('/all', async (req, res) => {
         staff[id] = user;
       });
 
-      res.status(200).send(staff)
-    })
+      res.status(200).send(staff);
+    });
 
   } catch (e) {
-    res.status(400).send('Error')
+    res.status(400).send('Error');
   }
-})
+});
 
-router.post('/delete', async (req, res) => {
+router.post('/delete', auth, async (req, res) => {
   try {
-    // const {token} = req.body;
-    const {_id} = req.body
-    await Employee.findOneAndDelete({_id})
-    res.status(200).send({"message": "Successfully deleted"})
+    const {_id} = req.body;
+    await Employee.findOneAndDelete({_id});
+    res.status(200).send({'message': 'Successfully deleted'});
 
   } catch (e) {
-    res.status(400).send('Error')
+    res.status(400).send('Error');
   }
-})
+});
 
-router.post('/edit', async (req, res) => {
+router.post('/edit', auth, async (req, res) => {
   try {
-    // const {token} = req.body;
-    console.log(req.body)
     const {_id, name, address, birth, position, salary} = req.body;
-    await Employee.findOneAndUpdate({_id}, {name, address, birth, position, salary})
-    res.status(200).send({"message": "Successfully edited"})
+    await Employee.findOneAndUpdate({_id}, {name, address, birth, position, salary});
+    res.status(200).send({'message': 'Successfully edited'});
 
   } catch (e) {
-    res.status(400).send('Error')
+    res.status(400).send('Error');
   }
-})
+});
 
-
-
-module.exports = router
+module.exports = router;

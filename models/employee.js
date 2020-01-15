@@ -3,12 +3,12 @@ const {Schema, model} = require('mongoose');
 const employee = new Schema({
   name: {
     type: String,
-    required: true
+    required: true,
   },
   address: String,
   birth: String,
   position: String,
-  salary: Number
+  salary: Number,
 });
 
-module.exports = model('Employee', employee)
+module.exports = model('Employee', employee);
